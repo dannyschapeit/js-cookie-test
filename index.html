@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+function setCookie(cname,cvalue,exdays) {
+  const d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  let expires = "expires=" + d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = document.cookie;
+  return decodedCookie;
+}
+
+function deleteCookies() {
+  //clear all cookies
+  var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+    }
+    setView();
+}
+
+//set/change cookie by input field
+function setCookieByUserInput() {
+	var userInput = document.querySelector("#inputValue").value;
+	setCookie("cookie", userInput, 30);
+	checkCookie();
+}
+
+function checkCookie() {
+  let cookie = getCookie("cookie");
+  setView(cookie);
+}
+
+function setView(value) {
+	if (value) {
+    	document.getElementById("cookie").innerHTML = value;
+    } else {
+    	document.getElementById("cookie").innerHTML = "{NO COOKIE FOUND}";
+    }
+}
+</script>
+</head>
+
+<body onload="checkCookie()">
+	<div>
+    	<b>Saved Cookie:</b>
+        <p id="cookie">{USER COOKIE NOT FOUND}</p>
+    </div>
+    
+    <div>
+    	<br><br><br><br>
+    	<b>Settings</b><br>
+        <button onClick="deleteCookies()">delete cookie</button>
+        <div>
+          <label><input placeholder="Cookie value" type="text" name="value" id="inputValue"></label>
+          <label><button id="inputValueButton" onClick="setCookieByUserInput()" type="button"> Set </button></label>
+      	</div>
+    </div>
+</body>
+</html>
